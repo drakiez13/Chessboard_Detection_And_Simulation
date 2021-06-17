@@ -8,7 +8,7 @@ Web application to detect objects and simulate those objects model.
 ## Usage
 ### Docker development container:
 Run dev-container:
->make build-dev\
+>make build\
 make run-dev
 
 Install vscode remote explorer then attach to container
