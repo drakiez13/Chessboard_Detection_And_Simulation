@@ -1,5 +1,6 @@
 APP_NAME=sannin
 PORT=80
+DOCKERHUB_REPO='drakiez92/sannin'
 build:
 	docker build -t $(APP_NAME) .
 
@@ -10,3 +11,7 @@ up: build run
 
 stop:
 	docker stop $(APP_NAME); docker rm $(APP_NAME)
+
+push:
+	docker tag $(APP_NAME):latest $(DOCKERHUB_REPO):latest
+	docker push $(DOCKERHUB_REPO):latest
