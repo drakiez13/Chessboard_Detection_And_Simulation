@@ -1,6 +1,5 @@
-from werkzeug.wrappers import request
 from app import app
-from app import predict
+from app import detector
 from flask import request, jsonify
 
 # Test only
@@ -11,4 +10,4 @@ def api():
 @app.route('/api/image_upload', methods=['POST'])
 def image_upload():
     img = request.files.get('imagefile', '')
-    return jsonify(predict.predict(img))
+    return detector.predict(img)
