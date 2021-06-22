@@ -8,10 +8,17 @@
     <script src='/api.js'></script>
 </head>
 <body>
-    <form action="/api.js" method="POST">
+	<script>
+		function myFunc() {
+			imageFile = document.getElementById('myFile').files[0];
+			upload(imageFile, console.log, console.log);
+		}
+	</script>
+	<div class="image-upload-form">
         <input type="file" id="myFile" name="filename">
-        <input type="submit">
-    </form>
+        <button onclick="myFunc()">Upload</button>
+    <div>
+	
     <h1 id="demo">JS not works</h1>
     <div id="content"></div>
     <script src='/index.js'></script>
