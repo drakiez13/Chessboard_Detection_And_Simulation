@@ -14,6 +14,10 @@ function renderObjects(data)
     });
 }
 
+function displayImg() {
+    
+}
+
 function imgUploadHandler() {
     function errHandler(err) {
         console.log('[Error] ' + err);
@@ -27,6 +31,7 @@ function imgUploadHandler() {
         else
         {
             renderObjects(data);
+            displayImg();
         }
     }
 

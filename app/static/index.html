@@ -10,12 +10,16 @@
 </head>
 <body>
 	<div class="image-upload-form">
-        <input type="file" id="myFile" name="filename">
+        <input type="file" id="myFile" name="filename" onchange="event">
+        <img id="output" width="200" />
         <button onclick="imgUploadHandler()">Upload</button>
     <div>
 	
-    <div class="render" id="render">
-		
-	</div>
+    <h1 id="demo">JS not works</h1>
+    <div id="content"></div>
+    <script src='/index.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    
 </body>
 </html>
