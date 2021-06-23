@@ -4,25 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Object Detection</title>
     <script src='/api.js'></script>
+	<script src='/index.js'></script>
 </head>
 <body>
-	<script>
-		function myFunc() {
-			imageFile = document.getElementById('myFile').files[0];
-			upload(imageFile, console.log, console.log);
-		}
-	</script>
 	<div class="image-upload-form">
         <input type="file" id="myFile" name="filename">
-        <button onclick="myFunc()">Upload</button>
+        <button onclick="imgUploadHandler()">Upload</button>
     <div>
 	
+<<<<<<< HEAD
     <h1 id="demo">JS not works</h1>
     <div id="content"></div>
     <script src='/index.js'></script>
     
     
+=======
+    <div class="render" id="render">
+		
+	</div>
+>>>>>>> 5767a111bf713d5df2f69c3996948f2b521d0945
 </body>
 </html>
