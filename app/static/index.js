@@ -14,6 +14,11 @@ function renderObjects(data)
     });
 }
 
+function displayImg() {
+    let image=document.getElementById('myFile');
+    <img src="image"></img>
+}
+
 function imgUploadHandler() {
     function errHandler(err) {
         console.log('[Error] ' + err);
@@ -27,6 +32,7 @@ function imgUploadHandler() {
         else
         {
             renderObjects(data);
+            displayImg();
         }
     }
 
