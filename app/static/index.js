@@ -16,7 +16,7 @@ function renderObjects(data)
 
 function displayImg() {
     let image=document.getElementById('myFile');
-    <img src="image"></img>
+    <img src="image" />
 }
 
 function imgUploadHandler() {
