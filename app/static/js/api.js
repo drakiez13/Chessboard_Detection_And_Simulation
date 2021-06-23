@@ -19,3 +19,5 @@ function upload(file, callback, err) {
       error => err(error)
     );
   };
+
+export default upload;
