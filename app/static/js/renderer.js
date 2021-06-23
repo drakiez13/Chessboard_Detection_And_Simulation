@@ -1,13 +1,13 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js';
 import {OBJLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/OBJLoader.js';
 
-function render(place, name) {
+function render(place, name, width, height) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(600, 600);
+    renderer.setSize(width, height);
     
     place.appendChild(renderer.domElement);
 
@@ -28,7 +28,7 @@ function render(place, name) {
     
     function animate() {
         requestAnimationFrame(animate);
-        
+
         renderer.render(scene, camera);
     }
     animate();

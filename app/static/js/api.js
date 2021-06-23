@@ -4,9 +4,8 @@ return data will be executed in callback if success
 handle error with err callback
 */
 function upload(file, callback, err) {
-    const formData = new FormData();
-    if (file == null)
-      err("Cannot find file to upload")
+  const formData = new FormData();
+  if (file) {
     formData.append('imagefile', file);
     fetch('/api/image_upload', {
       method: 'POST',
@@ -18,6 +17,9 @@ function upload(file, callback, err) {
     ).catch(
       error => err(error)
     );
-  };
+  }
+  else
+    err("Cannot find file to upload")
+};
 
 export default upload;

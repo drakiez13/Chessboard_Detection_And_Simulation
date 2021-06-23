@@ -12,11 +12,23 @@ function renderObjects(data)
 {
     let renderDOM = document.getElementById('content');
     renderDOM.innerHTML = '';
-    render(renderDOM, data[0].name)
+    render(renderDOM, data[0].name, 400, 400)
 }
 
-function displayImg() {
-    
+function displayImg(event) {
+    let input = document.getElementById('file-input');
+    const file = input.files[0]
+    if (file) {
+        let imgElement = document.createElement('img');
+        imgElement.src = URL.createObjectURL(file);
+        imgElement.style = `
+            max-width: 100%;
+            max-height: 100%;
+            margin-top: 10px;
+        `
+        document.getElementById('image-viewer').innerHTML = ''
+        document.getElementById('image-viewer').appendChild(imgElement);
+    }
 }
 
 function imgUploadHandler() {
@@ -32,12 +44,12 @@ function imgUploadHandler() {
         else
         {
             renderObjects(data);
-            displayImg();
         }
     }
 
-    let imageFile = document.getElementById('myFile').files[0];
+    let imageFile = document.getElementById('file-input').files[0];
     upload(imageFile, successHandler, errHandler);
 }
 
 document.getElementById('upload-btn').onclick = imgUploadHandler;
+document.getElementById('file-input').onchange = displayImg;
