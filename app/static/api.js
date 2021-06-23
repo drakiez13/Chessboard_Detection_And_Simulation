@@ -5,6 +5,8 @@ handle error with err callback
 */
 function upload(file, callback, err) {
     const formData = new FormData();
+    if (file == null)
+      err("Cannot find file to upload")
     formData.append('imagefile', file);
     fetch('/api/image_upload', {
       method: 'POST',
