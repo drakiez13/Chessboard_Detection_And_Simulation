@@ -21,4 +21,4 @@ docker pull drakiez92/sannin:latest
 docker run -it --rm -p=80:80 --name=sannin drakiez92/sannin flask run -p 80 -h 0.0.0.0
 ```
 ## reference
-    - [Data](https://public.roboflow.com/object-detection/chess-full)
+-[data](https://public.roboflow.com/object-detection/chess-full) 
