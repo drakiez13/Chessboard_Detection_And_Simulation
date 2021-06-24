@@ -32,8 +32,10 @@ function render(place, name, width, height) {
     //const controls = new THREE.OrbitControls(camera, renderer.domElement);
     function animate() {
         requestAnimationFrame(animate);
+
         if (model) {
             model.rotation.y -= 0.01;}
+
         renderer.render(scene, camera);
     }
     animate();
