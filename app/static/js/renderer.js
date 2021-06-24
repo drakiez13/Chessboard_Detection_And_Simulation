@@ -4,7 +4,7 @@ import {OBJLoader} from 'https://threejsfundamentals.org/threejs/resources/three
 function render(place, name, width, height) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 5;
+    camera.position.z = 15;
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
@@ -15,10 +15,16 @@ function render(place, name, width, height) {
 
     var loader = new OBJLoader();
     var model = null;
-
+    var ship_material = new THREE.MeshPhongMaterial( { color: 0x44444 } );
     loader.load('/models/'+name+'/'+name+'.obj', function(object)
     { 
         model=object;
+        model.traverse( function( child ) {
+            if ( child instanceof THREE.Mesh ) {
+                child.material = ship_material;
+            }
+        } );
+        
         scene.add(model);
     });
     
@@ -29,7 +35,8 @@ function render(place, name, width, height) {
     light.position.set(1,1,1);
     scene.add(light);
 
-    //const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    //BACKGROUD
+    scene.background = new THREE.Color('skyblue');
     function animate() {
         requestAnimationFrame(animate);
 
