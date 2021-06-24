@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Object Detection</title>
-	<script src='/js/index.js' type="module"></script>
+    <script src='/js/index.js' type="module"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
-<body>
-	<div class="image-upload-form">
-        <input type="file" id="myFile" name="filename" onchange="event">
-        <img id="output" width="200" />
-        <button id="upload-btn">Upload</button>
-    <div>
-	
-    <div id="content">
 
+<body>
+    <div>
+        <nav>
+            <div class="nav-wrapper">
+              <a href="#" class="brand-logo center">CV-CG Object Detection</a>
+            </div>
+          </nav>
+        <div class="row">
+            <div class="col s12 m5 l4">
+                <h5>Upload file</h5>
+                <input id="file-input" type="file" style="margin-bottom: 10px;">
+                <button class="waves-effect waves-light btn" id="upload-btn">Upload</button>
+                <div id="image-viewer">
+
+                </div>
+            </div>
+
+            <div class="col s12 m7 l8">
+                <h5>Model</h5>
+                <div id="content" class="center">
+
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </body>
+
 </html>
