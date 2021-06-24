@@ -15,7 +15,7 @@ function render(place, name, width, height) {
 
     var loader = new OBJLoader();
     var model = null;
-    var ship_material = new THREE.MeshPhongMaterial( { color: 0x44444 } );
+    var ship_material = new THREE.MeshPhongMaterial( { color: 0x000000 } );
     loader.load('/models/'+name+'/'+name+'.obj', function(object)
     { 
         model=object;
@@ -31,7 +31,7 @@ function render(place, name, width, height) {
 
     // LIGHT
     
-    const light = new THREE.DirectionalLight(0xffffff, 1);
+    const light = new THREE.DirectionalLight(0xffffff, 5);
     light.position.set(1,1,1);
     scene.add(light);
 
