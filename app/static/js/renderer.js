@@ -11,21 +11,16 @@ function render(place, name, width, height) {
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.BasicShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     place.appendChild(renderer.domElement);
 
     //PLANE
     var meshFloor = new THREE.Mesh(
         new THREE.PlaneGeometry(18, 18, 10, 10),
-
-        new THREE.MeshPhongMaterial({ color: 0x404040 })
-
+        new THREE.MeshStandardMaterial({ color: 0x404040 })
     );
-
-
     meshFloor.rotation.x -= 1.2;
-
     meshFloor.receiveShadow = true;
     meshFloor.position.y = -5;
     scene.add(meshFloor);
@@ -45,7 +40,7 @@ function render(place, name, width, height) {
 
             mesh = object;
             mesh.castShadow = true;
-            mesh.receiveShadow = true;
+            // mesh.receiveShadow = true;
             scene.add(mesh);
 
         });
@@ -55,16 +50,22 @@ function render(place, name, width, height) {
 
     // LIGHT
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-    scene.add(ambientLight);
+    // var light_1 = new THREE.AmbientLight(0xffffff, 0.2);
+    // scene.add(light_1);
 
-    var light = new THREE.SpotLight(0xffffff, 1, 18);
-    light.position.set(3, 6, -3);
-    light.castShadow = true;
+    // var light_2 = new THREE.AmbientLight(0x222222);
+    // scene.add( light_2 );
 
+    // var light_3 = new THREE.SpotLight(0xffffff, 1, 18);
+    // light_3.position.set(0, -8, 20);
+    // light_3.castShadow = true;   
+    // scene.add(light_3);
 
+    var light_4 = new THREE.DirectionalLight(0xffffff)
+    light_4.position.set(8, 8, 20);
+    light_4.castShadow = true;
+    scene.add(light_4)
 
-    scene.add(light);
 
     //BACKGROUD
     scene.background = new THREE.Color('skyblue');
