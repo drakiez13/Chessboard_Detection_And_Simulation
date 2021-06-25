@@ -24,7 +24,7 @@ function render(place, name, width, height) {
     );
 
 
-    meshFloor.rotation.x -= 1.2;
+    meshFloor.rotation.x -= 1.1;
 
     meshFloor.receiveShadow = true;
     meshFloor.position.y = -5;
@@ -44,6 +44,7 @@ function render(place, name, width, height) {
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
 
             mesh = object;
+            mesh.position.set(0,0,1);
             mesh.castShadow = true;
             mesh.receiveShadow = true;
             scene.add(mesh);
@@ -55,16 +56,26 @@ function render(place, name, width, height) {
 
     // LIGHT
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    var ambientLight = new THREE.AmbientLight(0xffffff,0.5 );
     scene.add(ambientLight);
 
-    var light = new THREE.SpotLight(0xffffff, 1, 18);
-    light.position.set(3, 6, -3);
+    var light = new THREE.SpotLight(0xffffff, 1.5);
+    
+    light.position.set(4, 8, 2);
+    light.angle=0.4;
+    light.penumbra=0.8;
     light.castShadow = true;
 
-
-
     scene.add(light);
+
+    var light2 = new THREE.SpotLight(0xffffff, 0.5);
+    
+    light2.position.set(-4, 8, 2);
+    light2.angle=0.4;
+    light2.penumbra=0.8;
+    light2.castShadow = true;
+
+    scene.add(light2);
 
     //BACKGROUD
     scene.background = new THREE.Color('skyblue');
