@@ -46,8 +46,12 @@ function render(place, name, width, height) {
 
             mesh = object;
             mesh.position.set(0,0,1);
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
+            mesh.traverse( function ( child )
+                            {
+                                child.castShadow = true;
+                                child.receiveShadow = true;
+                                
+                            });
 
             scene.add(mesh);
 
@@ -69,14 +73,15 @@ function render(place, name, width, height) {
 
     scene.add(light);
 
-    var light2 = new THREE.SpotLight(0xffffff, 0.5);
+    // var light2 = new THREE.SpotLight(0xffffff, 0.5);
     
-    light2.position.set(-4, 8, 2);
-    light2.angle=0.4;
-    light2.penumbra=0.8;
-    light2.castShadow = true;
+    // light2.position.set(-4, 8, 2);
+    // light2.angle=0.4;
+    // light2.penumbra=0.8;
+    // light2.castShadow = true;
 
-    scene.add(light2);
+    // scene.add(light2);
+    //scene.add(new THREE.cameraHelper(SpotLight.shadow.camera));
 
     //BACKGROUD
     scene.background = new THREE.Color('skyblue');
