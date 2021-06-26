@@ -13,6 +13,7 @@ function render(place, name, width, height) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.BasicShadowMap;
 
+
     place.appendChild(renderer.domElement);
 
     //PLANE
@@ -47,6 +48,7 @@ function render(place, name, width, height) {
             mesh.position.set(0,0,1);
             mesh.castShadow = true;
             mesh.receiveShadow = true;
+
             scene.add(mesh);
 
         });
@@ -55,7 +57,6 @@ function render(place, name, width, height) {
 
 
     // LIGHT
-
     var ambientLight = new THREE.AmbientLight(0xffffff,0.5 );
     scene.add(ambientLight);
 
