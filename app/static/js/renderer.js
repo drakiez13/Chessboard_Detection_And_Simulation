@@ -11,16 +11,22 @@ function render(place, name, width, height) {
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
+
 
     place.appendChild(renderer.domElement);
 
     //PLANE
     var meshFloor = new THREE.Mesh(
         new THREE.PlaneGeometry(18, 18, 10, 10),
-        new THREE.MeshStandardMaterial({ color: 0x404040 })
+
+        new THREE.MeshPhongMaterial({ color: 0x404040 })
+
     );
-    meshFloor.rotation.x -= 1.2;
+
+
+    meshFloor.rotation.x -= 1.1;
+
     meshFloor.receiveShadow = true;
     meshFloor.position.y = -5;
     scene.add(meshFloor);
@@ -39,8 +45,10 @@ function render(place, name, width, height) {
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
 
             mesh = object;
+            mesh.position.set(0,0,1);
             mesh.castShadow = true;
-            // mesh.receiveShadow = true;
+            mesh.receiveShadow = true;
+
             scene.add(mesh);
 
         });
@@ -49,23 +57,26 @@ function render(place, name, width, height) {
 
 
     // LIGHT
+    var ambientLight = new THREE.AmbientLight(0xffffff,0.5 );
+    scene.add(ambientLight);
 
-    // var light_1 = new THREE.AmbientLight(0xffffff, 0.2);
-    // scene.add(light_1);
+    var light = new THREE.SpotLight(0xffffff, 1.5);
+    
+    light.position.set(4, 8, 2);
+    light.angle=0.4;
+    light.penumbra=0.8;
+    light.castShadow = true;
 
-    // var light_2 = new THREE.AmbientLight(0x222222);
-    // scene.add( light_2 );
+    scene.add(light);
 
-    // var light_3 = new THREE.SpotLight(0xffffff, 1, 18);
-    // light_3.position.set(0, -8, 20);
-    // light_3.castShadow = true;   
-    // scene.add(light_3);
+    var light2 = new THREE.SpotLight(0xffffff, 0.5);
+    
+    light2.position.set(-4, 8, 2);
+    light2.angle=0.4;
+    light2.penumbra=0.8;
+    light2.castShadow = true;
 
-    var light_4 = new THREE.DirectionalLight(0xffffff)
-    light_4.position.set(8, 8, 20);
-    light_4.castShadow = true;
-    scene.add(light_4)
-
+    scene.add(light2);
 
     //BACKGROUD
     scene.background = new THREE.Color('skyblue');
