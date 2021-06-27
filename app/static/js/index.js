@@ -1,16 +1,15 @@
 import upload from './api.js'
-import render from './renderer.js'
+import {render, renderChessBoard} from './renderer.js'
 import {scalePoint} from './utils.js';
 
 let data = [];
+let chessBoardData = {};
 let pos = 0;
 let currentImageURL = '';
 
-
-
 function renderObjects(pos)
 {
-    let renderDOM = document.getElementById('content');
+    let renderDOM = document.getElementById('single-object-renderer');
     renderDOM.innerHTML = '';
 
     let width = renderDOM.offsetWidth;
@@ -26,7 +25,28 @@ function renderObjects(pos)
     render(renderDOM, data[pos - 1].name, width, width);
 }
 
-// deprecate
+function simulateChessBoard()
+{
+    if (chessBoardData.isDetected == 'ok')
+    {
+        let renderDOM = document.getElementById('chessboard-renderer');
+        renderDOM.innerHTML = '';
+        let infoElement = document.createElement('h5');
+        infoElement.innerHTML = "Chessboard Simulate";
+        renderDOM.append(infoElement);
+
+        let width = renderDOM.offsetWidth;
+        if (width > 700)
+            width = 700;
+
+        renderChessBoard(renderDOM, width, height, chessBoardData.positions);
+    }
+    else
+    {
+        console.log("Cannot detect chessboard to simulate!");
+    }
+}
+
 function displayImg(event) {
     let input = document.getElementById('file-input');
     const file = input.files[0]
@@ -71,7 +91,7 @@ function switchObject(pos)
         let [xmin, ymin, xmax, ymax] = [_data.xmin, _data.ymin, _data.xmax, _data.ymax];
         [xmin, ymin] = scalePoint(xmin, ymin, canvas.width, canvas.height, this.naturalWidth, this.naturalHeight);
         [xmax, ymax] = scalePoint(xmax, ymax, canvas.width, canvas.height, this.naturalWidth, this.naturalHeight);
-        //console.log(_data);
+
         context.beginPath();
         context.rect(xmin, ymin, xmax - xmin, ymax - ymin);
         context.stroke();
@@ -80,6 +100,8 @@ function switchObject(pos)
     
     image.onload = drawImageRectangle;
     image.src = currentImageURL;
+
+    renderObjects(pos);
 }
 
 function imgUploadHandler() {
@@ -94,12 +116,14 @@ function imgUploadHandler() {
         }
         else
         {
-            data = res;
+            data = JSON.parse(res.data);
+            chessBoardData = res.chessboard;
+            console.log(data.length)
+            
             pos = 1;
-            renderObjects(pos);
-            // 
             document.getElementById('image-viewer').innerHTML = '';
             switchObject(1);
+            simulateChessBoard();
         }
     }
 
@@ -115,7 +139,6 @@ let incInfo = e => {
     if (pos > data.length)
         pos = 1;
     switchObject(pos);
-    renderObjects(pos);
 }
 
 let decInfo = e => {
@@ -123,7 +146,6 @@ let decInfo = e => {
     if (pos < 1)
         pos = data.length;
     switchObject(pos);
-    renderObjects(pos);
 }
 
 let nextbtn = document.getElementById('next-btn');
