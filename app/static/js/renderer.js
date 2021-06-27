@@ -18,7 +18,7 @@ function render(place, name, width, height) {
 
     //PLANE
     var meshFloor = new THREE.Mesh(
-        new THREE.PlaneGeometry(18, 18, 10, 10),
+        new THREE.PlaneGeometry(50, 50, 10, 10),
 
         new THREE.MeshPhongMaterial({ color: 0x404040 })
 
@@ -45,7 +45,7 @@ function render(place, name, width, height) {
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
 
             mesh = object;
-            mesh.position.set(0,0,1);
+            mesh.position.set(0,0,0);
             mesh.traverse( function ( child )
                             {
                                 child.castShadow = true;
