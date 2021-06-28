@@ -15,10 +15,12 @@ function loader(scene, name, x = 0, z = 0) {
         var objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
-            var box = new THREE.Box3().setFromObject(object);
             
+
             mesh = object;
-            mesh.position.set(x, -box.min.y, z);
+            temp=mesh.clone();
+            var box = new THREE.Box3().setFromObject(temp);
+            mesh.position.set(x,-box.min.y,z);
             mesh.traverse(function (child) {
                 child.castShadow = true;
                 child.receiveShadow = true;
@@ -33,7 +35,9 @@ function loader(scene, name, x = 0, z = 0) {
 
 }
 
-function processPosition(x, y) {
+function processPositions(x, y) {
+
+ 
     if (x < 5 && y < 5) {
         x = x - 5;
         y = 5 - y;
@@ -50,11 +54,11 @@ function processPosition(x, y) {
         x = x - 4;
         y = 4 - y;
     }
-    return [x*6,y*6];
+    return [x * 6, y * 6];
 }
 
 function chessPositions(scene, name, x, y) {
-    const [w,h]=processPosition(x,y);
+    const [w, h] = processPosition(x, y);
 
     loader(scene, name, w, h);
 
@@ -86,7 +90,7 @@ function renderChessBoard(place, width, height, arrObj) {
         var objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
         objLoader.load('/models/' + chessboard + '/' + chessboard + '.obj', function (object) {
-            
+
             mesh = object;
             mesh.position.set(0, 0, 0);
             mesh.traverse(function (child) {
@@ -101,7 +105,7 @@ function renderChessBoard(place, width, height, arrObj) {
 
     });
     arrObj.forEach(element => {
-        processPosition(scene, element.name, element.x, element.y)
+        chessPositions(scene, element.name, element.x, element.y)
     });
     function animate() {
         requestAnimationFrame(animate);
@@ -126,19 +130,19 @@ function render(place, name, width, height) {
     place.appendChild(renderer.domElement);
 
     //PLANE
-    // var meshFloor = new THREE.Mesh(
-    //     new THREE.PlaneGeometry(50, 50, 10, 10),
+    var meshFloor = new THREE.Mesh(
+        new THREE.PlaneGeometry(50, 50, 10, 10),
 
-    //     new THREE.MeshPhongMaterial({ color: 0x404040 })
+        new THREE.MeshPhongMaterial({ color: 0x404040 })
 
-    // );
+    );
 
 
-    // meshFloor.rotation.x -= 1.1;
+    meshFloor.rotation.x -= 1.1;
 
-    // meshFloor.receiveShadow = true;
-    // meshFloor.position.y = -5;
-    // scene.add(meshFloor);
+    meshFloor.receiveShadow = true;
+    meshFloor.position.y = -5;
+    scene.add(meshFloor);
 
     // MODEL
 
@@ -192,7 +196,7 @@ function render(place, name, width, height) {
     //     });
 
     // });
-    loader(scene, 'black-king');
+    
     loader(scene, 'white-king');
 
     // LIGHT
