@@ -18,8 +18,8 @@ function loader(scene, name, x = 0, z = 0) {
             
 
             mesh = object;
-            temp=mesh.clone();
-            var box = new THREE.Box3().setFromObject(temp);
+            //temp=mesh.clone();
+            var box = new THREE.Box3().setFromObject(object);
             mesh.position.set(x,-box.min.y,z);
             mesh.traverse(function (child) {
                 child.castShadow = true;
@@ -83,13 +83,13 @@ function renderChessBoard(place, width, height, arrObj) {
     var mesh = null;
 
     var mtlLoader = new MTLLoader();
-    mtlLoader.load('/models/' + chessboard + '/' + chessboard + '.mtl', function (materials) {
+    mtlLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.mtl', function (materials) {
 
         materials.preload();
 
         var objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
-        objLoader.load('/models/' + chessboard + '/' + chessboard + '.obj', function (object) {
+        objLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.obj', function (object) {
 
             mesh = object;
             mesh.position.set(0, 0, 0);
@@ -130,19 +130,19 @@ function render(place, name, width, height) {
     place.appendChild(renderer.domElement);
 
     //PLANE
-    var meshFloor = new THREE.Mesh(
-        new THREE.PlaneGeometry(50, 50, 10, 10),
+    // var meshFloor = new THREE.Mesh(
+    //     new THREE.PlaneGeometry(50, 50, 10, 10),
 
-        new THREE.MeshPhongMaterial({ color: 0x404040 })
+    //     new THREE.MeshPhongMaterial({ color: 0x404040 })
 
-    );
+    // );
 
 
-    meshFloor.rotation.x -= 1.1;
+    // meshFloor.rotation.x -= 1.1;
 
-    meshFloor.receiveShadow = true;
-    meshFloor.position.y = -5;
-    scene.add(meshFloor);
+    // meshFloor.receiveShadow = true;
+    // meshFloor.position.y = -5;
+    // scene.add(meshFloor);
 
     // MODEL
 
@@ -196,8 +196,32 @@ function render(place, name, width, height) {
     //     });
 
     // });
+    // var mesh = null;
+
+    // var mtlLoader = new MTLLoader();
+    // mtlLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.mtl', function (materials) {
+
+    //     materials.preload();
+
+    //     var objLoader = new OBJLoader();
+    //     objLoader.setMaterials(materials);
+    //     objLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.obj', function (object) {
+
+    //         mesh = object;
+    //         mesh.position.set(0, 0, 0);
+    //         mesh.traverse(function (child) {
+    //             child.castShadow = true;
+    //             child.receiveShadow = true;
+
+    //         });
+
+    //         scene.add(mesh);
+
+    //     });
+
+    // });
     
-    loader(scene, 'white-king');
+    loader(scene, 'white-king',3,3);
 
     // LIGHT
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -207,7 +231,7 @@ function render(place, name, width, height) {
 
     light.position.set(4, 8, 2);
     light.angle = 3;
-    light.penumbra = 0.8;
+    light.penumbra = 3;
     light.castShadow = true;
 
     scene.add(light);
