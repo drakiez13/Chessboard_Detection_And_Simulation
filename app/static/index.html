@@ -14,29 +14,39 @@
     <div>
         <nav>
             <div class="nav-wrapper">
-              <a href="#" class="brand-logo center">CV-CG Object Detection</a>
+                <a href="#" class="brand-logo center">CV-CG Object Detection</a>
             </div>
-          </nav>
-        <div class="row">
+        </nav>
+        <div class="row" style="padding: 0px 5%;">
             <div class="col s12 m5 l4">
-                <h5>Upload file</h5>
-                <input id="file-input" type="file" style="margin-bottom: 10px;">
-                <button class="waves-effect waves-light btn" id="upload-btn">Upload</button>
-                <div id="image-viewer">
-
+                <div class="row">
+                    <h5>Upload file</h5>
+                    <input id="file-input" type="file" style="margin-bottom: 10px;">
+                    <button class="waves-effect waves-light btn" id="upload-btn">Upload</button>
                 </div>
-                <canvas id="canvas"></canvas>
+                <div class="row">
+                    <div id="image-viewer">
+
+                    </div>
+                    <div id="canvas-viewer">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
             </div>
 
             <div class="col s12 m7 l8">
-                <h5>Model</h5>
-                <button class="waves-effect waves-light btn" id="prev-btn">previous</button>
-                <button class="waves-effect waves-light btn" id="next-btn">next</button>
-                <div id="single-object-renderer">
-
+                <div class="row">
+                    <h5>Model</h5>
+                    <button class="waves-effect waves-light btn" id="prev-btn">previous</button>
+                    <button class="waves-effect waves-light btn" id="next-btn">next</button>
                 </div>
-                <div id="chessboard-renderer">
+                <div class="row">
+                    <div id="single-object-renderer" class="col s12 m12 l6">
 
+                    </div>
+                    <div id="chessboard-renderer" class="col s12 m12 l6">
+
+                    </div>
                 </div>
             </div>
         </div>
