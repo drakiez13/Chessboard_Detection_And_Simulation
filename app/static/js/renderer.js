@@ -1,11 +1,12 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js';
 import { OBJLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/MTLLoader.js';
+import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/controls/OrbitControls.js';
 
-function loader(scene, name) {
+function loader(scene, name,x=0 ,y=0, z=0) {
 
     var mesh = null;
-
+    
     var mtlLoader = new MTLLoader();
     mtlLoader.load('/models/' + name + '/' + name + '.mtl', function (materials) {
 
@@ -14,15 +15,16 @@ function loader(scene, name) {
         var objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
-
+            var box = new THREE.Box3().setFromObject(object);
+            console.log(box);
             mesh = object;
-            mesh.position.set(0, 0, 0);
+            mesh.position.set(x, -box.min.y, z);
             mesh.traverse(function (child) {
                 child.castShadow = true;
                 child.receiveShadow = true;
 
             });
-
+            
             scene.add(mesh);
 
         });
@@ -37,12 +39,56 @@ function loader(scene, name) {
 
 function renderChessBoard(place,width,height,arrObj){
     
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    camera.position.set(0,25,65);
+
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(width, height);
+
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
+
+
+    place.appendChild(renderer.domElement);
+    
+    var mesh = null;
+    
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load('/models/' + chessboard + '/' + chessboard + '.mtl', function (materials) {
+
+        materials.preload();
+
+        var objLoader = new OBJLoader();
+        objLoader.setMaterials(materials);
+        objLoader.load('/models/' + chessboard + '/' + chessboard + '.obj', function (object) {
+            var box = new THREE.Box3().setFromObject(object);
+            console.log(box);
+            mesh = object;
+            mesh.position.set(0,0, 0);
+            mesh.traverse(function (child) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+
+            });
+            
+            scene.add(mesh);
+
+        });
+
+    });
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
 }
 
 function render(place, name, width, height) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 15;
+    camera.position.set(0,25,65);
 
 
     const renderer = new THREE.WebGLRenderer();
@@ -95,7 +141,34 @@ function render(place, name, width, height) {
     //     });
 
     // });
-    loader(scene, 'chessboard');
+    //chessboard
+    var mesh = null;
+    
+    var mtlLoader = new MTLLoader();
+    mtlLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.mtl', function (materials) {
+
+        materials.preload();
+
+        var objLoader = new OBJLoader();
+        objLoader.setMaterials(materials);
+        objLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.obj', function (object) {
+            var box = new THREE.Box3().setFromObject(object);
+            console.log(box);
+            mesh = object;
+            mesh.position.set(0,0, 0);
+            mesh.traverse(function (child) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+
+            });
+            
+            scene.add(mesh);
+
+        });
+
+    });
+    loader(scene,'black-king');
+    loader(scene,'white-king');
 
     // LIGHT
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -104,7 +177,7 @@ function render(place, name, width, height) {
     var light = new THREE.SpotLight(0xffffff, 1.5);
 
     light.position.set(4, 8, 2);
-    light.angle = 0.4;
+    light.angle = 3;
     light.penumbra = 0.8;
     light.castShadow = true;
 
@@ -120,6 +193,9 @@ function render(place, name, width, height) {
     // scene.add(light2);
     //scene.add(new THREE.cameraHelper(SpotLight.shadow.camera));
 
+    //control
+    const controls = new OrbitControls(camera, renderer.domElement);
+
     //BACKGROUD
     scene.background = new THREE.Color('skyblue');
     function animate() {
@@ -133,5 +209,4 @@ function render(place, name, width, height) {
     }
     animate();
 }
-
-export {render,renderChessBoard};
+export {render, renderChessBoard};
