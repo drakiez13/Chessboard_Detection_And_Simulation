@@ -13,8 +13,8 @@ function renderObjects(pos)
     renderDOM.innerHTML = '';
 
     let width = renderDOM.offsetWidth;
-    if (width > 700)
-        width = 700;
+    if (width > 600)
+        width = 600;
 
     let infoElement = document.createElement('h5');
     renderDOM.appendChild(infoElement);
@@ -36,9 +36,9 @@ function simulateChessBoard()
         renderDOM.append(infoElement);
 
         let width = renderDOM.offsetWidth;
-        if (width > 700)
-            width = 700;
-
+        if (width > 600)
+            width = 600;
+        console.log(chessBoardData.positions);
         renderChessBoard(renderDOM, width, height, chessBoardData.positions);
     }
     else
@@ -48,6 +48,9 @@ function simulateChessBoard()
 }
 
 function displayImg(event) {
+    document.getElementById('canvas-viewer').style.display = "none";
+
+
     let input = document.getElementById('file-input');
     const file = input.files[0]
     if (file) {
@@ -59,7 +62,10 @@ function displayImg(event) {
             max-height: 100%;
             margin-top: 10px;
         `
-        document.getElementById('image-viewer').innerHTML = ''
+        let imageViewer = document.getElementById('image-viewer');
+        imageViewer.innerHTML = '';
+        imageViewer.style.display = "block";
+        
         document.getElementById('image-viewer').appendChild(imgElement);
     }
 }
@@ -75,6 +81,9 @@ function fitToContainer(canvas){
 
 function switchObject(pos)
 {
+    document.getElementById('image-viewer').style.display = "none";
+    document.getElementById('canvas-viewer').style.display = "block";
+
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');
     const image = new Image();
@@ -121,7 +130,7 @@ function imgUploadHandler() {
             console.log(data.length)
             
             pos = 1;
-            document.getElementById('image-viewer').innerHTML = '';
+            
             switchObject(1);
             simulateChessBoard();
         }
