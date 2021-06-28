@@ -1,12 +1,12 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js';
 import { OBJLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/MTLLoader.js';
-import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/controls/OrbitControls.js';
 
-function loader(scene, name,x=0 ,y=0, z=0) {
+function loader(scene, name, x = 0, z = 0) {
 
     var mesh = null;
-    
+
     var mtlLoader = new MTLLoader();
     mtlLoader.load('/models/' + name + '/' + name + '.mtl', function (materials) {
 
@@ -16,7 +16,7 @@ function loader(scene, name,x=0 ,y=0, z=0) {
         objLoader.setMaterials(materials);
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
             var box = new THREE.Box3().setFromObject(object);
-            console.log(box);
+            
             mesh = object;
             mesh.position.set(x, -box.min.y, z);
             mesh.traverse(function (child) {
@@ -24,7 +24,7 @@ function loader(scene, name,x=0 ,y=0, z=0) {
                 child.receiveShadow = true;
 
             });
-            
+
             scene.add(mesh);
 
         });
@@ -33,15 +33,38 @@ function loader(scene, name,x=0 ,y=0, z=0) {
 
 }
 
-// function processPosition(x,y) {
-    
-// }
+function processPosition(x, y) {
+    if (x < 5 && y < 5) {
+        x = x - 5;
+        y = 5 - y;
+    }
+    else if (x > 4 && y < 5) {
+        x = x - 4;
+        y = 5 - y;
+    }
+    else if (x < 5 && y > 4) {
+        x = x - 5;
+        y = 4 - y;
+    }
+    else {
+        x = x - 4;
+        y = 4 - y;
+    }
+    return [x*6,y*6];
+}
 
-function renderChessBoard(place,width,height,arrObj){
-    
+function chessPositions(scene, name, x, y) {
+    const [w,h]=processPosition(x,y);
+
+    loader(scene, name, w, h);
+
+}
+
+function renderChessBoard(place, width, height, arrObj) {
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.set(0,25,65);
+    camera.position.set(0, 25, 65);
 
 
     const renderer = new THREE.WebGLRenderer();
@@ -52,9 +75,9 @@ function renderChessBoard(place,width,height,arrObj){
 
 
     place.appendChild(renderer.domElement);
-    
+
     var mesh = null;
-    
+
     var mtlLoader = new MTLLoader();
     mtlLoader.load('/models/' + chessboard + '/' + chessboard + '.mtl', function (materials) {
 
@@ -63,20 +86,22 @@ function renderChessBoard(place,width,height,arrObj){
         var objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
         objLoader.load('/models/' + chessboard + '/' + chessboard + '.obj', function (object) {
-            var box = new THREE.Box3().setFromObject(object);
-            console.log(box);
+            
             mesh = object;
-            mesh.position.set(0,0, 0);
+            mesh.position.set(0, 0, 0);
             mesh.traverse(function (child) {
                 child.castShadow = true;
                 child.receiveShadow = true;
 
             });
-            
+
             scene.add(mesh);
 
         });
 
+    });
+    arrObj.forEach(element => {
+        processPosition(scene, element.name, element.x, element.y)
     });
     function animate() {
         requestAnimationFrame(animate);
@@ -88,7 +113,7 @@ function renderChessBoard(place,width,height,arrObj){
 function render(place, name, width, height) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.set(0,25,65);
+    camera.position.set(0, 25, 65);
 
 
     const renderer = new THREE.WebGLRenderer();
@@ -142,33 +167,33 @@ function render(place, name, width, height) {
 
     // });
     //chessboard
-    var mesh = null;
-    
-    var mtlLoader = new MTLLoader();
-    mtlLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.mtl', function (materials) {
+    // var mesh = null;
 
-        materials.preload();
+    // var mtlLoader = new MTLLoader();
+    // mtlLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.mtl', function (materials) {
 
-        var objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.obj', function (object) {
-            var box = new THREE.Box3().setFromObject(object);
-            console.log(box);
-            mesh = object;
-            mesh.position.set(0,0, 0);
-            mesh.traverse(function (child) {
-                child.castShadow = true;
-                child.receiveShadow = true;
+    //     materials.preload();
 
-            });
-            
-            scene.add(mesh);
+    //     var objLoader = new OBJLoader();
+    //     objLoader.setMaterials(materials);
+    //     objLoader.load('/models/' + 'chessboard' + '/' + 'chessboard' + '.obj', function (object) {
+    //         var box = new THREE.Box3().setFromObject(object);
+    //         console.log(box);
+    //         mesh = object;
+    //         mesh.position.set(0,0, 0);
+    //         mesh.traverse(function (child) {
+    //             child.castShadow = true;
+    //             child.receiveShadow = true;
 
-        });
+    //         });
 
-    });
-    loader(scene,'black-king');
-    loader(scene,'white-king');
+    //         scene.add(mesh);
+
+    //     });
+
+    // });
+    loader(scene, 'black-king');
+    loader(scene, 'white-king');
 
     // LIGHT
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -209,4 +234,4 @@ function render(place, name, width, height) {
     }
     animate();
 }
-export {render, renderChessBoard};
+export { render, renderChessBoard };
