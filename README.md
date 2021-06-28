@@ -22,4 +22,5 @@ docker run -it --rm -p=80:80 --name=sannin drakiez92/sannin flask run -p 80 -h 0
 ```
 ## Reference
 
-- [data](https://public.roboflow.com/object-detection/chess-full) 
+- [Chess dataset](https://public.roboflow.com/object-detection/chess-full)
+- [Chess 3D models](https://sketchfab.com/danielpaulse/collections/project-chess-set)
