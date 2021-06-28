@@ -39,7 +39,7 @@ function simulateChessBoard()
         if (width > 600)
             width = 600;
         console.log(chessBoardData.positions);
-        renderChessBoard(renderDOM, width, height, chessBoardData.positions);
+        renderChessBoard(renderDOM, width, width, chessBoardData.positions);
     }
     else
     {
