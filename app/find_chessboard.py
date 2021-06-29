@@ -3,11 +3,9 @@ import numpy as np
 import cv2 as cv
 
 
-def detect_color(img):
+def detect_color(img, lower = (20, 30, 150), upper = (40, 80, 250)):
     img_hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-    lower_green = (20, 30, 150)
-    upper_green = (40, 80, 250)
-    mask = cv.inRange(img_hsv, lower_green, upper_green)
+    mask = cv.inRange(img_hsv, lower, upper)
     result = cv.bitwise_and(img_hsv, img_hsv, mask=mask)
     return result
 
@@ -52,8 +50,7 @@ def box_board(img):
 def detect_board(img):
 
     img_color = detect_color(img)
-    img_color = cv.cvtColor(cv.cvtColor(
-        img_color, cv.COLOR_HSV2BGR), cv.COLOR_BGR2GRAY)
+    img_color = cv.cvtColor(cv.cvtColor(img_color, cv.COLOR_HSV2BGR), cv.COLOR_BGR2GRAY)
     img_corner = detect_corner(img_color)
     x1, x2, x3, x4 = box_board(img_corner)
     return x1, x2, x3, x4
@@ -69,16 +66,25 @@ def find_pos(x, y, x0, y0, w, h):
 
 def find_specific_chessboard(img):
     x, y, w, h = 1,1,1,1
+    img_color = detect_color(img, (50,40,80), (80,120,110))
+
+    img_color = cv.cvtColor(cv.cvtColor(img_color, cv.COLOR_HSV2BGR), cv.COLOR_BGR2GRAY)
+    img_corner = detect_corner(img_color)
+    x1, x2, x3, x4 = box_board(img_corner)
+    x = x1[0]
+    y = x1[1]
+    w = x4[0]-x
+    h = x4[1]-y
     return x,y,w,h
 
 def perspective_point(xmin, ymin, xmax, ymax):
     x = (xmax + xmin) // 2
-    y = ymin + (ymax - ymin) // 8 
+    y = ymin + (ymax - ymin)
     return (x, y)
 
 
 def get_position(img, detected):
-    board_corner = find_chessboard(img)
+    board_corner = detect_board(img)
     positions = []
     pts1 = np.array(board_corner, dtype=np.float32)
     pts2 = np.float32([[0, 0], [400, 0], [0, 400], [400, 400]])
