@@ -87,15 +87,18 @@ def get_position(img, detected):
     board_corner = detect_board(img)
     positions = []
     pts1 = np.array(board_corner, dtype=np.float32)
-    pts2 = np.float32([[0, 0], [400, 0], [0, 400], [400, 400]])
+    pts2 = np.float32([[0, 0], [200, 0], [0, 200], [200, 200]])
 
     matrix = cv.getPerspectiveTransform(pts1, pts2)
+
+    square_img = cv.warpPerspective(img, matrix, (200, 200))
+
     for obj in detected:
         xmin = obj['xmin']
         xmax = obj['xmax']
         ymin = obj['ymin']
         ymax = obj['ymax']
-        square_img = cv.warpPerspective(img, matrix, (400, 400))
+        
 
         x, y = perspective_point(xmin, ymin, xmax, ymax)
 
