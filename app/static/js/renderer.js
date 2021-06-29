@@ -38,7 +38,7 @@ function loader(scene, name, x = 0, z = 0) {
 
 function processPositions(x, y) {
 
-
+    y=9-y;
     if (x < 5 && y < 5) {
         x = x - 4.5;
         y = 4.5 - y;
@@ -109,7 +109,7 @@ function renderChessBoard(place, width, height, arrObj) {
         chessPositions(scene, element.name, element.x, element.y)
     });
 
-    loader(scene, 'white-king');
+    // loader(scene, 'white-king');
 
     // LIGHT
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
