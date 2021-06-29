@@ -59,15 +59,17 @@ def detect_board(img):
     return x1, x2, x3, x4
 
 
-def find_pos(x, y, w, h):
+def find_pos(x, y, x0, y0, w, h):
+    x = x - x0
+    y = y - y0
     pos_x = int(x / w * 8) + 1
     pos_y = int(y / h * 8) + 1
     return pos_x, pos_y
 
 
-def huy(img):
-    return detect_board(img)
-
+def find_specific_chessboard(img):
+    x, y, w, h = 1,1,1,1
+    return x,y,w,h
 
 def perspective_point(xmin, ymin, xmax, ymax):
     x = (xmax + xmin) // 2
@@ -76,7 +78,7 @@ def perspective_point(xmin, ymin, xmax, ymax):
 
 
 def get_position(img, detected):
-    board_corner = huy(img)
+    board_corner = find_chessboard(img)
     positions = []
     pts1 = np.array(board_corner, dtype=np.float32)
     pts2 = np.float32([[0, 0], [400, 0], [0, 400], [400, 400]])
@@ -87,16 +89,16 @@ def get_position(img, detected):
         xmax = obj['xmax']
         ymin = obj['ymin']
         ymax = obj['ymax']
-        # result = cv.warpPerspective(img, matrix, (400, 400))
+        square_img = cv.warpPerspective(img, matrix, (400, 400))
 
         x, y = perspective_point(xmin, ymin, xmax, ymax)
 
-        print(x, y)
         topleft = cv.perspectiveTransform(np.array([[[x, y]]], dtype=np.float32), matrix)
         x, y = topleft[0, 0]
-        print(x, y)
 
-        x, y = find_pos(x, y, 400, 400)
+        x0, y0, w0, h0 = find_specific_chessboard(square_img)
+
+        x, y = find_pos(x, y, x0, y0, w0, h0)
 
         positions.append(dict({'name': obj['name'], 'x': x, 'y': y}))
 
