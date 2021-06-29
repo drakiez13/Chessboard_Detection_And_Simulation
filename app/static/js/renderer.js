@@ -159,7 +159,7 @@ function render(place, name, width, height) {
     );
 
 
-    meshFloor.rotation.x -= 1.67;
+    meshFloor.rotation.x -= Math.PI/2;
     
     meshFloor.receiveShadow = true; 
     scene.add(meshFloor);
