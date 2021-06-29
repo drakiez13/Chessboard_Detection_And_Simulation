@@ -95,7 +95,7 @@ function renderChessBoard(place, width, height, arrObj) {
             mesh = object;
             mesh.position.set(0, 0, 0);
             mesh.traverse(function (child) {
-                child.castShadow = true;
+                child.castShadow = false;
                 child.receiveShadow = true;
 
             });
@@ -105,6 +105,10 @@ function renderChessBoard(place, width, height, arrObj) {
         });
 
     });
+    // let test=loader(scene,'white-rook',3,3);
+    // test.castShadow=true;
+    // scene.add(test);
+    
     arrObj.forEach(element => {
         chessPositions(scene, element.name, element.x, element.y)
     });
@@ -145,7 +149,11 @@ function render(place, name, width, height) {
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.BasicShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    //BasicShadowMap
+    //VSMShadowMap
+    // PCFShadowMap
+    // PCFSoftShadowMap
 
 
     place.appendChild(renderer.domElement);
