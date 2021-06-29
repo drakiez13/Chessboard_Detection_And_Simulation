@@ -125,7 +125,8 @@ function imgUploadHandler() {
         }
         else
         {
-            data = JSON.parse(res.data);
+            console.log(res);
+            data = res.data;
             chessBoardData = res.chessboard;
             console.log(data.length)
             
