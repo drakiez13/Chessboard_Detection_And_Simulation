@@ -79,7 +79,7 @@ def find_specific_chessboard(img):
 
 def perspective_point(xmin, ymin, xmax, ymax):
     x = (xmax + xmin) // 2
-    y = ymin + (ymax - ymin)
+    y = ymin + int((ymax - ymin) * 4 / 5)
     return (x, y)
 
 
