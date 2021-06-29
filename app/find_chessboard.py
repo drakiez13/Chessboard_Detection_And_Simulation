@@ -37,22 +37,23 @@ def box_board(img):
                 if (i**2 + j**2 < min_x1):
                     min_x1 = i**2 + j**2
                     x1 = (j, i)
-                if ((w-i)**2 + j**2 < min_x2):
-                    min_x2 = (w-i)**2 + j**2
+                if (i**2 + (h-j)**2 < min_x2):
+                    min_x2 = i**2 + (h-j)**2
                     x2 = (j, i)
-                if ((w-i)**2 + (h-j)**2 < min_x3):
-                    min_x3 = (w-i)**2 + (h-j)**2
-                    x4 = (j, i)
-                if (i**2 + (h-j)**2 < min_x4):
-                    min_x4 = i**2 + (h-j)**2
+                if ((w-i)**2 + j**2 < min_x3):
+                    min_x3 = (w-i)**2 + j**2
                     x3 = (j, i)
+                if ((w-i)**2 + (h-j)**2 < min_x4):
+                    min_x4 = (w-i)**2 + (h-j)**2
+                    x4 = (j, i)
     return x1, x2, x3, x4
 
 
 def detect_board(img):
 
     img_color = detect_color(img)
-    img_color = cv.cvtColor(cv.cvtColor(img_color, cv.COLOR_HSV2BGR), cv.COLOR_BGR2GRAY)
+    img_color = cv.cvtColor(cv.cvtColor(
+        img_color, cv.COLOR_HSV2BGR), cv.COLOR_BGR2GRAY)
     img_corner = detect_corner(img_color)
     x1, x2, x3, x4 = box_board(img_corner)
     return x1, x2, x3, x4
@@ -70,11 +71,11 @@ def huy(img):
 
 def perspective_point(xmin, ymin, xmax, ymax):
     x = (xmax + xmin) // 2
-    y = (ymax + ymin) // 5
+    y = ymin + (ymax - ymin) // 8 
     return (x, y)
 
 
-def myfunc(img, detected):
+def get_position(img, detected):
     board_corner = huy(img)
     positions = []
     pts1 = np.array(board_corner, dtype=np.float32)
@@ -88,12 +89,12 @@ def myfunc(img, detected):
         ymax = obj['ymax']
         # result = cv.warpPerspective(img, matrix, (400, 400))
 
-        topleft = cv.perspectiveTransform(np.array([[[xmin, ymin]]], dtype=np.float32), matrix)
-        xmin, ymin = topleft[0, 0]
-        botright = cv.perspectiveTransform(np.array([[[xmax, ymax]]], dtype=np.float32), matrix)
-        xmax, ymax = botright[0, 0]
-
         x, y = perspective_point(xmin, ymin, xmax, ymax)
+
+        print(x, y)
+        topleft = cv.perspectiveTransform(np.array([[[x, y]]], dtype=np.float32), matrix)
+        x, y = topleft[0, 0]
+        print(x, y)
 
         x, y = find_pos(x, y, 400, 400)
 
@@ -104,4 +105,4 @@ def myfunc(img, detected):
 
 def find_chessboard(img, detected):
 
-    return dict({'isDetected': 'ok', 'positions': myfunc(img, detected)})
+    return dict({'isDetected': 'ok', 'positions': get_position(img, detected)})

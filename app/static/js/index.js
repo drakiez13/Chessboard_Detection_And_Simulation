@@ -38,7 +38,6 @@ function simulateChessBoard()
         let width = renderDOM.offsetWidth;
         if (width > 600)
             width = 600;
-        console.log(chessBoardData.positions);
         renderChessBoard(renderDOM, width, width, chessBoardData.positions);
     }
     else
@@ -128,7 +127,6 @@ function imgUploadHandler() {
             console.log(res);
             data = res.data;
             chessBoardData = res.chessboard;
-            console.log(data.length)
             
             pos = 1;
             
