@@ -107,25 +107,27 @@ function renderChessBoard(place, width, height, arrObj) {
     });
 
     arrObj.forEach(element => {
-        element.y = 9 - element.y;
-        if (element.x < 5 && element.y < 5) {
-            element.x = element.x - 4.5;
-            element.y = 4.5 - element.y;
+        let x=element.x;
+        let y=element.y;
+        y = 9 - y;
+        if (x < 5 && y < 5) {
+            x = x - 4.5;
+            y = 4.5 -y;
         }
-        else if (element.x > 4 && element.y < 5) {
-            element.x = element.x - 4.5;
-            element.y = 4.5 - element.y;
+        else if (x > 4 && y < 5) {
+            x = x - 4.5;
+            y = 4.5 - y;
         }
-        else if (element.x < 5 && element.y > 4) {
-            element.x = element.x - 4.5;
-            element.y = 4.5 - element.y;
+        else if (x < 5 && y > 4) {
+            x = x - 4.5;
+            y = 4.5 - y;
         }
         else {
-            element.x = element.x - 4.5;
-            element.y = 4.5 - element.y;
+            x = x - 4.5;
+            y = 4.5 - y;
         }
-        element.x = element.x * 6;
-        element.y = element.y * 6;
+        x = x * 6;
+        y = y * 6;
 
         let mesh2 = null;
         let box = null;
@@ -161,7 +163,7 @@ function renderChessBoard(place, width, height, arrObj) {
 
 
                 mesh1 = object;
-                mesh1.position.set(element.x, -box.min.y, element.y);
+                mesh1.position.set(x, -box.min.y, y);
                 // mesh1.position.set(element.x, 2.2, element.y);
                 mesh1.traverse(function (child) {
                     child.castShadow = true;
@@ -221,7 +223,7 @@ function render(place, name, width, height) {
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     //BasicShadowMap
     //VSMShadowMap
     // PCFShadowMap
