@@ -72,11 +72,11 @@ function renderChessBoard(place, width, height, arrObj) {
     camera.position.set(0, 25, 65);
 
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.VCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 
     place.appendChild(renderer.domElement);
@@ -217,7 +217,7 @@ function render(place, name, width, height) {
     camera.position.set(0, 10, 20);
 
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
