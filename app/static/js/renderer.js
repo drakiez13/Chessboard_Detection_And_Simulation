@@ -38,7 +38,7 @@ function loader(scene, name, x = 0, z = 0) {
 
 function processPositions(x, y) {
 
-    y=9-y;
+    y = 9 - y;
     if (x < 5 && y < 5) {
         x = x - 4.5;
         y = 4.5 - y;
@@ -76,7 +76,7 @@ function renderChessBoard(place, width, height, arrObj) {
     renderer.setSize(width, height);
 
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.BasicShadowMap;
+    renderer.shadowMap.type = THREE.VCFSoftShadowMap;
 
 
     place.appendChild(renderer.domElement);
@@ -105,28 +105,100 @@ function renderChessBoard(place, width, height, arrObj) {
         });
 
     });
-    // let test=loader(scene,'white-rook',3,3);
-    // test.castShadow=true;
-    // scene.add(test);
-    
+
     arrObj.forEach(element => {
-        chessPositions(scene, element.name, element.x, element.y)
+        element.y = 9 - element.y;
+        if (element.x < 5 && element.y < 5) {
+            element.x = element.x - 4.5;
+            element.y = 4.5 - element.y;
+        }
+        else if (element.x > 4 && element.y < 5) {
+            element.x = element.x - 4.5;
+            element.y = 4.5 - element.y;
+        }
+        else if (element.x < 5 && element.y > 4) {
+            element.x = element.x - 4.5;
+            element.y = 4.5 - element.y;
+        }
+        else {
+            element.x = element.x - 4.5;
+            element.y = 4.5 - element.y;
+        }
+        element.x = element.x * 6;
+        element.y = element.y * 6;
+
+        let mesh2 = null;
+        let box = null;
+        let mtlLoader2 = new MTLLoader();
+        mtlLoader2.load('/models/' + element.name + '/' + element.name + '.mtl', function (materials) {
+
+            materials.preload();
+
+            let objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('/models/' + element.name + '/' + element.name + '.obj', function (object) {
+                box = new THREE.Box3().setFromObject(object);
+
+                
+
+            });
+
+            // scene.add(mesh1);
+        });
+
+        // });
+
+        let mesh1 = null;
+
+        let mtlLoader1 = new MTLLoader();
+        mtlLoader1.load('/models/' + element.name + '/' + element.name + '.mtl', function (materials) {
+
+            materials.preload();
+
+            let objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load('/models/' + element.name + '/' + element.name + '.obj', function (object) {
+
+
+                mesh1 = object;
+                mesh1.position.set(element.x, -box.min.y, element.y);
+                // mesh1.position.set(element.x, 2.2, element.y);
+                mesh1.traverse(function (child) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+
+                });
+
+                scene.add(mesh1);
+            });
+
+        });
+
     });
-
-    // loader(scene, 'white-king');
-
     // LIGHT
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+
+    let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    var light = new THREE.SpotLight(0xffffff, 1.5);
 
-    light.position.set(4, 8, 2);
+    let light = new THREE.SpotLight(0xffffff, 0.8);
+
+    light.position.set(10, 5, 10);
     light.angle = 3;
-    light.penumbra = 3;
-    light.castShadow = true;
+    light.penumbra = 0.8;
 
+
+
+
+    light.position.set(100, 100, 0);
+
+    light.castShadow = true;
+   
+    light.shadow.mapSize.width = 4096; // default
+    light.shadow.mapSize.height = 2048; // default
+    
     scene.add(light);
+    
 
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -167,13 +239,13 @@ function render(place, name, width, height) {
     );
 
 
-    meshFloor.rotation.x -= Math.PI/2;
-    
-    meshFloor.receiveShadow = true; 
+    meshFloor.rotation.x -= Math.PI / 2;
+
+    meshFloor.receiveShadow = true;
     scene.add(meshFloor);
 
     var mesh = null;
-    var box=null;
+    var box = null;
     var mtlLoader = new MTLLoader();
     mtlLoader.load('/models/' + name + '/' + name + '.mtl', function (materials) {
 
@@ -183,7 +255,7 @@ function render(place, name, width, height) {
         objLoader.setMaterials(materials);
         objLoader.load('/models/' + name + '/' + name + '.obj', function (object) {
             box = new THREE.Box3().setFromObject(object);
-            
+
 
             // mesh = object;
             // mesh.traverse(function (child) {
@@ -222,7 +294,7 @@ function render(place, name, width, height) {
     });
 
     // meshFloor.position.set(0, -box.min.y, 0);
-    
+
 
 
     // LIGHT
@@ -231,7 +303,7 @@ function render(place, name, width, height) {
 
     var light = new THREE.SpotLight(0xffffff, 1.2);
 
-    light.position.set(10,20, 10);
+    light.position.set(10, 20, 10);
     light.angle = 4;
     light.penumbra = 0.8;
     light.castShadow = true;
